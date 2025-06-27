@@ -7,10 +7,14 @@
         <groupId>com.zjh</groupId>
         <artifactId>zzone</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>common-core</artifactId>
+    <artifactId>dependencies</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>dependencies-bom</module>
+        <module>dependencies-plugins</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
