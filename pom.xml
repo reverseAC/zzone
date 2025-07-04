@@ -23,12 +23,12 @@
 		<developer/>
 	</developers>
 	<modules>
-		<module>common</module>
-		<module>blog</module>
-		<module>iot</module>
-		<module>common/core</module>
-        <module>server</module>
-		<module>server/job</module>
+		<module>zzone-common</module>
+		<module>zzone-blog</module>
+		<module>zzone-iot</module>
+		<module>zzone-common/core</module>
+        <module>zzone-server</module>
+		<module>zzone-server/job</module>
 		<module>dependencies</module>
 	</modules>
 	<scm>

@@ -9,7 +9,14 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common</artifactId>
+    <artifactId>zzone-server</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>gateway</module>
+        <module>auth</module>
+        <module>monitor</module>
+        <module>file</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

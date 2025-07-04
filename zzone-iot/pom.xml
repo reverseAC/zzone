@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zjh</groupId>
-        <artifactId>server</artifactId>
+        <artifactId>zzone</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>monitor</artifactId>
+    <artifactId>zzone-iot</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

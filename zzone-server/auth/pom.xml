@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zjh</groupId>
-        <artifactId>server</artifactId>
+        <artifactId>zzone-server</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>file</artifactId>
+    <artifactId>auth</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
