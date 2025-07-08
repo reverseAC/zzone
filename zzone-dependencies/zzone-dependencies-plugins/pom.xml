@@ -5,11 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zjh</groupId>
-        <artifactId>dependencies</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>zzone-dependencies</artifactId>
+        <version>${revision}</version>
     </parent>
+
+    <artifactId>zzone-dependencies-plugins</artifactId>
     <packaging>pom</packaging>
-    <artifactId>dependencies-plugins</artifactId>
+
     <description>插件版本统一管理</description>
 
     <build>
@@ -28,6 +30,11 @@
                             <artifactId>spring-boot-configuration-processor</artifactId>
                         </path>
                     </annotationProcessorPaths>
+                    <basedir/>
+                    <mainOutputDirectory/>
+                    <mojoStatusPath/>
+                    <outputDirectory/>
+                    <projectArtifact/>
                 </configuration>
             </plugin>
             <plugin>
