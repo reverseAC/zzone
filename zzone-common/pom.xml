@@ -15,6 +15,7 @@
     <modules>
         <module>zzone-common-core</module>
         <module>zzone-common-mybatis</module>
+        <module>zzone-common-web</module>
     </modules>
 
 </project>

@@ -40,6 +40,11 @@
                 <artifactId>zzone-common-mybatis</artifactId>
                 <version>${zzone.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zjh</groupId>
+                <artifactId>zzone-common-web</artifactId>
+                <version>${zzone.version}</version>
+            </dependency>
 
             <!-- spring boot -->
             <dependency>

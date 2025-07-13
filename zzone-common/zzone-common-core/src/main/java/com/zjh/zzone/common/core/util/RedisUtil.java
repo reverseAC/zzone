@@ -1,36 +1,45 @@
 package com.zjh.zzone.common.core.util;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Redis 通用工具类
  * 封装常用 Redis 操作
+ *
+ * @author zjh
+ * @date 2025/7/13 21:31
  */
 @Component
-public class RedisUtil {
-
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final ValueOperations<String, Object> valueOps;
-    private final HashOperations<String, String, Object> hashOps;
-    private final ListOperations<String, Object> listOps;
-    private final SetOperations<String, Object> setOps;
-    private final ZSetOperations<String, Object> zSetOps;
+public final class RedisUtil {
 
     @Autowired
-    public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-        this.valueOps = redisTemplate.opsForValue();
-        this.hashOps = redisTemplate.opsForHash();
-        this.listOps = redisTemplate.opsForList();
-        this.setOps = redisTemplate.opsForSet();
-        this.zSetOps = redisTemplate.opsForZSet();
+    public RedisTemplate<String, Object> redisTemplateBean;
+
+    private static RedisTemplate<String, Object> redisTemplate;
+    private static ValueOperations<String, Object> valueOps;
+    private static HashOperations<String, String, Object> hashOps;
+    private static ListOperations<String, Object> listOps;
+    private static SetOperations<String, Object> setOps;
+    private static ZSetOperations<String, Object> zSetOps;
+
+    @PostConstruct
+    public void init() {
+        redisTemplate = redisTemplateBean;
+        valueOps = redisTemplate.opsForValue();
+        hashOps = redisTemplate.opsForHash();
+        listOps = redisTemplate.opsForList();
+        setOps = redisTemplate.opsForSet();
+        zSetOps = redisTemplate.opsForZSet();
     }
 
     // ==================== 通用操作 ====================
@@ -42,7 +51,7 @@ public class RedisUtil {
      * @param unit 时间单位
      * @return 是否设置成功
      */
-    public boolean expire(String key, long timeout, TimeUnit unit) {
+    public static boolean expire(String key, long timeout, TimeUnit unit) {
         try {
             if (timeout > 0) {
                 return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, unit));
@@ -58,7 +67,7 @@ public class RedisUtil {
      * @param key 键
      * @return 剩余时间(秒)
      */
-    public long getExpire(String key) {
+    public static long getExpire(String key) {
         Long expire = redisTemplate.getExpire(key, TimeUnit.SECONDS);
         return expire == null ? -1 : expire;
     }
@@ -68,7 +77,7 @@ public class RedisUtil {
      * @param key 键
      * @return true=存在 false=不存在
      */
-    public boolean hasKey(String key) {
+    public static boolean hasKey(String key) {
         try {
             return Boolean.TRUE.equals(redisTemplate.hasKey(key));
         } catch (Exception e) {
@@ -81,7 +90,7 @@ public class RedisUtil {
      * @param key 键
      * @return 删除是否成功
      */
-    public boolean delete(String key) {
+    public static boolean delete(String key) {
         try {
             return Boolean.TRUE.equals(redisTemplate.delete(key));
         } catch (Exception e) {
@@ -94,7 +103,7 @@ public class RedisUtil {
      * @param keys 键集合
      * @return 成功删除的数量
      */
-    public long delete(Collection<String> keys) {
+    public static long delete(Collection<String> keys) {
         try {
             Long count = redisTemplate.delete(keys);
             return count == null ? 0 : count;
@@ -108,7 +117,7 @@ public class RedisUtil {
      * @param key 键
      * @return 数据类型
      */
-    public DataType type(String key) {
+    public static DataType type(String key) {
         return redisTemplate.type(key);
     }
 
@@ -119,7 +128,7 @@ public class RedisUtil {
      * @param key 键
      * @param value 值
      */
-    public void set(String key, Object value) {
+    public static void set(String key, Object value) {
         try {
             valueOps.set(key, value);
         } catch (Exception e) {
@@ -134,7 +143,7 @@ public class RedisUtil {
      * @param timeout 时间
      * @param unit 时间单位
      */
-    public void set(String key, Object value, long timeout, TimeUnit unit) {
+    public static void set(String key, Object value, long timeout, TimeUnit unit) {
         try {
             valueOps.set(key, value, timeout, unit);
         } catch (Exception e) {
@@ -147,12 +156,22 @@ public class RedisUtil {
      * @param key 键
      * @return 值
      */
-    public Object get(String key) {
+    public static <T> T get(String key, Class<T> clazz) {
         try {
-            return valueOps.get(key);
+            Object value = valueOps.get(key);
+            return value == null ? null : clazz.cast(value);
         } catch (Exception e) {
             throw new RuntimeException("Redis get error", e);
         }
+    }
+
+    /**
+     * 值递增（步长为1）
+     * @param key 键
+     * @return 递增后的值
+     */
+    public static long increment(String key) {
+        return increment(key, 1);
     }
 
     /**
@@ -161,7 +180,7 @@ public class RedisUtil {
      * @param delta 增量(大于0)
      * @return 递增后的值
      */
-    public long increment(String key, long delta) {
+    public static long increment(String key, long delta) {
         try {
             Long value = valueOps.increment(key, delta);
             return value == null ? 0 : value;
@@ -176,7 +195,7 @@ public class RedisUtil {
      * @param delta 减量(大于0)
      * @return 递减后的值
      */
-    public long decrement(String key, long delta) {
+    public static long decrement(String key, long delta) {
         try {
             Long value = valueOps.decrement(key, delta);
             return value == null ? 0 : value;
@@ -193,7 +212,7 @@ public class RedisUtil {
      * @param field 字段
      * @param value 值
      */
-    public void hSet(String key, String field, Object value) {
+    public static void hSet(String key, String field, Object value) {
         try {
             hashOps.put(key, field, value);
         } catch (Exception e) {
@@ -206,7 +225,7 @@ public class RedisUtil {
      * @param key 键
      * @param map 字段-值映射
      */
-    public void hSetAll(String key, Map<String, Object> map) {
+    public static void hSetAll(String key, Map<String, Object> map) {
         try {
             hashOps.putAll(key, map);
         } catch (Exception e) {
@@ -220,9 +239,10 @@ public class RedisUtil {
      * @param field 字段
      * @return 值
      */
-    public Object hGet(String key, String field) {
+    public static <T> T hGet(String key, String field, Class<T> clazz) {
         try {
-            return hashOps.get(key, field);
+            Object value = hashOps.get(key, field);
+            return value == null ? null : clazz.cast(value);
         } catch (Exception e) {
             throw new RuntimeException("Redis hGet error", e);
         }
@@ -233,9 +253,15 @@ public class RedisUtil {
      * @param key 键
      * @return 字段-值映射
      */
-    public Map<String, Object> hGetAll(String key) {
+    public static <T> Map<String, T> hGetAll(String key, Class<T> clazz) {
         try {
-            return hashOps.entries(key);
+            Map<String, Object> entries = hashOps.entries(key);
+            // 将对象转为T
+            Map<String, T> map = new HashMap<>();
+            for (Map.Entry<String, Object> entry : entries.entrySet()) {
+                map.put(entry.getKey(), entry.getValue() == null ? null : clazz.cast(entry.getValue()));
+            }
+            return map;
         } catch (Exception e) {
             throw new RuntimeException("Redis hGetAll error", e);
         }
@@ -247,7 +273,7 @@ public class RedisUtil {
      * @param fields 字段数组
      * @return 删除的字段数量
      */
-    public long hDelete(String key, Object... fields) {
+    public static long hDelete(String key, Object... fields) {
         try {
             Long count = hashOps.delete(key, fields);
             return count == null ? 0 : count;
@@ -262,7 +288,7 @@ public class RedisUtil {
      * @param field 字段
      * @return true=存在 false=不存在
      */
-    public boolean hExists(String key, String field) {
+    public static boolean hExists(String key, String field) {
         try {
             return Boolean.TRUE.equals(hashOps.hasKey(key, field));
         } catch (Exception e) {
@@ -277,7 +303,7 @@ public class RedisUtil {
      * @param delta 增量
      * @return 递增后的值
      */
-    public long hIncrement(String key, String field, long delta) {
+    public static long hIncrement(String key, String field, long delta) {
         try {
             Long value = hashOps.increment(key, field, delta);
             return value == null ? 0 : value;
@@ -295,9 +321,10 @@ public class RedisUtil {
      * @param end 结束索引 (0到-1表示所有元素)
      * @return 元素列表
      */
-    public List<Object> lRange(String key, long start, long end) {
+    public static <T> List<T> lRange(String key, long start, long end, Class<T> clazz) {
         try {
-            return listOps.range(key, start, end);
+            List<Object> range = listOps.range(key, start, end);
+            return range.stream().map(clazz::cast).collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException("Redis lRange error", e);
         }
@@ -308,7 +335,7 @@ public class RedisUtil {
      * @param key 键
      * @return 列表长度
      */
-    public long lSize(String key) {
+    public static long lSize(String key) {
         try {
             Long size = listOps.size(key);
             return size == null ? 0 : size;
@@ -323,9 +350,10 @@ public class RedisUtil {
      * @param index 索引
      * @return 元素
      */
-    public Object lIndex(String key, long index) {
+    public static <T> T lIndex(String key, long index, Class<T> clazz) {
         try {
-            return listOps.index(key, index);
+            Object value = listOps.index(key, index);
+            return value == null ? null : clazz.cast(value);
         } catch (Exception e) {
             throw new RuntimeException("Redis lIndex error", e);
         }
@@ -337,7 +365,7 @@ public class RedisUtil {
      * @param value 值
      * @return 插入后列表长度
      */
-    public long lLeftPush(String key, Object value) {
+    public static long lLeftPush(String key, Object value) {
         try {
             Long size = listOps.leftPush(key, value);
             return size == null ? 0 : size;
@@ -352,7 +380,7 @@ public class RedisUtil {
      * @param value 值
      * @return 插入后列表长度
      */
-    public long lRightPush(String key, Object value) {
+    public static long lRightPush(String key, Object value) {
         try {
             Long size = listOps.rightPush(key, value);
             return size == null ? 0 : size;
@@ -363,12 +391,14 @@ public class RedisUtil {
 
     /**
      * 列表左侧弹出元素
+     * NOTE：只提供左侧出，统一系统内使用redis list实现堆栈的行为
      * @param key 键
      * @return 弹出的元素
      */
-    public Object lLeftPop(String key) {
+    public static <T> T lLeftPop(String key, Class<T> clazz) {
         try {
-            return listOps.leftPop(key);
+            Object value = listOps.leftPop(key);
+            return value == null ? null : clazz.cast(value);
         } catch (Exception e) {
             throw new RuntimeException("Redis lLeftPop error", e);
         }
@@ -382,7 +412,7 @@ public class RedisUtil {
      * @param values 值数组
      * @return 成功添加的数量
      */
-    public long sAdd(String key, Object... values) {
+    public static long sAdd(String key, Object... values) {
         try {
             Long count = setOps.add(key, values);
             return count == null ? 0 : count;
@@ -396,9 +426,10 @@ public class RedisUtil {
      * @param key 键
      * @return 元素集合
      */
-    public Set<Object> sMembers(String key) {
+    public static <T> Set<T> sMembers(String key, Class<T> clazz) {
         try {
-            return setOps.members(key);
+            Set<Object> members = setOps.members(key);
+            return members.stream().map(clazz::cast).collect(Collectors.toSet());
         } catch (Exception e) {
             throw new RuntimeException("Redis sMembers error", e);
         }
@@ -410,7 +441,7 @@ public class RedisUtil {
      * @param value 值
      * @return true=存在 false=不存在
      */
-    public boolean sIsMember(String key, Object value) {
+    public static boolean sIsMember(String key, Object value) {
         try {
             return Boolean.TRUE.equals(setOps.isMember(key, value));
         } catch (Exception e) {
@@ -423,7 +454,7 @@ public class RedisUtil {
      * @param key 键
      * @return 集合大小
      */
-    public long sSize(String key) {
+    public static long sSize(String key) {
         try {
             Long size = setOps.size(key);
             return size == null ? 0 : size;
@@ -441,7 +472,7 @@ public class RedisUtil {
      * @param score 分数
      * @return 是否添加成功
      */
-    public boolean zAdd(String key, Object value, double score) {
+    public static boolean zAdd(String key, Object value, double score) {
         try {
             return Boolean.TRUE.equals(zSetOps.add(key, value, score));
         } catch (Exception e) {
@@ -456,9 +487,10 @@ public class RedisUtil {
      * @param end 结束位置
      * @return 元素集合
      */
-    public Set<Object> zRange(String key, long start, long end) {
+    public static <T> Set<T> zRange(String key, long start, long end, Class<T> clazz) {
         try {
-            return zSetOps.range(key, start, end);
+            Set<Object> values = zSetOps.range(key, start, end);
+            return values.stream().map(clazz::cast).collect(Collectors.toSet());
         } catch (Exception e) {
             throw new RuntimeException("Redis zRange error", e);
         }
@@ -469,7 +501,7 @@ public class RedisUtil {
      * @param key 键
      * @return 集合大小
      */
-    public long zSize(String key) {
+    public static long zSize(String key) {
         try {
             Long size = zSetOps.size(key);
             return size == null ? 0 : size;
@@ -485,7 +517,7 @@ public class RedisUtil {
      * @param keys 键集合
      * @return 键值映射
      */
-    public Map<String, Object> multiGet(Collection<String> keys) {
+    public static <T> Map<String, T> multiGet(Collection<String> keys, Class<T> clazz) {
         try {
             if (CollectionUtils.isEmpty(keys)) {
                 return Collections.emptyMap();
@@ -494,11 +526,12 @@ public class RedisUtil {
             if (values == null || values.isEmpty()) {
                 return Collections.emptyMap();
             }
-            Map<String, Object> result = new HashMap<>(keys.size());
+            Map<String, T> result = new HashMap<>(keys.size());
             int index = 0;
             for (String key : keys) {
                 if (index < values.size()) {
-                    result.put(key, values.get(index));
+                    Object value = values.get(index);
+                    result.put(key, value == null ? null : clazz.cast(value));
                 }
                 index++;
             }
@@ -517,7 +550,7 @@ public class RedisUtil {
      * @param expireTime 过期时间(秒)
      * @return 是否获取成功
      */
-    public boolean tryLock(String lockKey, String requestId, long expireTime) {
+    public static boolean tryLock(String lockKey, String requestId, long expireTime) {
         try {
             return Boolean.TRUE.equals(valueOps.setIfAbsent(lockKey, requestId, expireTime, TimeUnit.SECONDS));
         } catch (Exception e) {
@@ -531,7 +564,7 @@ public class RedisUtil {
      * @param requestId 请求标识
      * @return 是否释放成功
      */
-    public boolean releaseLock(String lockKey, String requestId) {
+    public static boolean releaseLock(String lockKey, String requestId) {
         try {
             String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
             Long result = redisTemplate.execute(
