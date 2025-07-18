@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.zjh</groupId>
         <artifactId>zzone-common</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>zzone-common-core</artifactId>
@@ -14,21 +14,11 @@
     <description>核心通用模块</description>
 
     <dependencies>
-    <!-- SpringBoot Boot Redis -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
+        <!-- SpringBoot Boot Redis，redis工具类依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-            <!--Lombok-->
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
         <!--mybatis-->
         <dependency>
             <groupId>com.baomidou</groupId>

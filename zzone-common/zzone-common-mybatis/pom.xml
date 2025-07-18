@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.zjh</groupId>
         <artifactId>zzone-common</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>zzone-common-mybatis</artifactId>
