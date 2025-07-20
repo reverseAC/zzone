@@ -12,6 +12,8 @@ import java.io.Serializable;
  * @param <T>
  * @author lengleng
  */
+@Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,16 +22,10 @@ public class R<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter
-	@Setter
 	private int code;
 
-	@Getter
-	@Setter
 	private String msg;
 
-	@Getter
-	@Setter
 	private T data;
 
 	public static <T> R<T> ok() {

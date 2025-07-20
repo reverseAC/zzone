@@ -3,6 +3,7 @@ package com.zjh.zzone.common.core.util;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.DataType;
+import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
@@ -508,6 +509,70 @@ public final class RedisUtil {
         } catch (Exception e) {
             throw new RuntimeException("Redis zSize error", e);
         }
+    }
+
+    // ==================== 位图操作 ====================
+
+    /**
+     * 设置某个位
+     * @param key 键
+     * @param offset 位偏移量
+     * @param value 值
+     * @return 是否设置成功
+     */
+    public Boolean setBit(String key, long offset, boolean value) {
+        return redisTemplate.execute((RedisCallback<Boolean>) connection ->
+                connection.setBit(key.getBytes(), offset, value));
+    }
+
+    /**
+     * 获取某个位
+     * @param key 键
+     * @param offset 位偏移量
+     * @return 值
+     */
+    public Boolean getBit(String key, long offset) {
+        return redisTemplate.execute((RedisCallback<Boolean>) connection ->
+                connection.getBit(key.getBytes(), offset));
+    }
+
+    /**
+     * 统计全部为1的位数
+     * @param key 键
+     * @return 为1的位数
+     */
+    public Long bitCount(String key) {
+        return redisTemplate.execute((RedisCallback<Long>) connection ->
+                connection.bitCount(key.getBytes()));
+    }
+
+    /**
+     * 统计指定范围为1的位数
+     * @param key 键
+     * @param start 开始位置
+     * @param end 结束位置
+     * @return 为1的位数
+     */
+    public Long bitCount(String key, long start, long end) {
+        return redisTemplate.execute((RedisCallback<Long>) connection ->
+                connection.bitCount(key.getBytes(), start, end));
+    }
+
+    /**
+     * 对多个 key 执行位运算（AND、OR、XOR、NOT），并将结果设置到指定位置
+     * @param op 运算符
+     * @param destKey 目标键
+     * @param srcKeys 源键集合
+     */
+    public void bitOp(RedisStringCommands.BitOperation op, String destKey, String... srcKeys) {
+        byte[][] rawKeys = new byte[srcKeys.length][];
+        for (int i = 0; i < srcKeys.length; i++) {
+            rawKeys[i] = srcKeys[i].getBytes();
+        }
+        redisTemplate.execute((RedisCallback<Void>) connection -> {
+            connection.bitOp(op, destKey.getBytes(), rawKeys);
+            return null;
+        });
     }
 
     // ==================== 批量操作 ====================

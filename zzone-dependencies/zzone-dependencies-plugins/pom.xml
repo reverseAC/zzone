@@ -31,8 +31,6 @@
                         </path>
                     </annotationProcessorPaths>
                     <basedir/>
-                    <mainOutputDirectory/>
-                    <mojoStatusPath/>
                     <outputDirectory/>
                     <projectArtifact/>
                 </configuration>
