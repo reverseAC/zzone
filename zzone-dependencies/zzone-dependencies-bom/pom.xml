@@ -26,6 +26,8 @@
         <swagger.core.version>2.2.32</swagger.core.version>
         <fastjson.version>1.2.83_noneautotype</fastjson.version>
         <hutool.version>5.8.38</hutool.version>
+        <californium.version>3.11.0</californium.version>
+        <netty.version>4.1.119.Final</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -145,7 +147,25 @@
                 <version>${liteflow.version}</version>
             </dependency>
             <!-- LiteFlow end -->
+            <!-- CoAP核心依赖 -->
+            <dependency>
+                <groupId>org.eclipse.californium</groupId>
+                <artifactId>californium-core</artifactId>
+                <version>${californium.version}</version>
+            </dependency>
+            <!-- CoAP的DTLS依赖 -->
+            <dependency>
+                <groupId>org.eclipse.californium</groupId>
+                <artifactId>scandium</artifactId>
+                <version>${californium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 </project>

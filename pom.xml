@@ -36,6 +36,8 @@
 	</scm>
 
 	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<revision>0.0.1-SNAPSHOT</revision>
 		<dependency.version>0.0.1-SNAPSHOT</dependency.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
