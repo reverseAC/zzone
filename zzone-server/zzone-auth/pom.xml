@@ -9,6 +9,17 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>auth</artifactId>
+    <artifactId>zzone-auth</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zjh</groupId>
+            <artifactId>zzone-common-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

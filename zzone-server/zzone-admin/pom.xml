@@ -6,16 +6,11 @@
     <parent>
         <groupId>com.zjh</groupId>
         <artifactId>zzone</artifactId>
-        <version>${revision}</version>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>zzone-server</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>zzone-auth</module>
-        <module>monitor</module>
-        <module>file</module>
-    </modules>
+    <artifactId>zzone-admin</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
