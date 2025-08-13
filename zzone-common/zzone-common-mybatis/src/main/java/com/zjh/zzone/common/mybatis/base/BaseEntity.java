@@ -1,7 +1,6 @@
 package com.zjh.zzone.common.mybatis.base;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +18,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键
+     */
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @Schema(description = "主键")
+    private Long id;
 
     /**
      * 创建者
@@ -49,8 +57,16 @@ public class BaseEntity implements Serializable {
     private LocalDateTime updateTime;
 
     /**
+     * 状态
+     * @see com.zjh.zzone.common.core.enums.DataStatus
+     */
+    @Schema(description = "状态")
+    private String status;
+
+    /**
      * 删除标记（0：正常；1：删除）
      */
+    @TableLogic(value = "0", delval = "1")
     @TableField(value = "is_deleted")
-    private boolean deleted;
+    private Integer deleted;
 }

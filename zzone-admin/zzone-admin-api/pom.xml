@@ -5,17 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zjh</groupId>
-        <artifactId>zzone</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <artifactId>zzone-admin</artifactId>
+        <version>${revision}</version>
     </parent>
 
-    <artifactId>zzone-admin</artifactId>
+    <artifactId>zzone-admin-api</artifactId>
+    <description>zzone基础信息平台api模块</description>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zjh</groupId>
+            <artifactId>zzone-common-mybatis</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

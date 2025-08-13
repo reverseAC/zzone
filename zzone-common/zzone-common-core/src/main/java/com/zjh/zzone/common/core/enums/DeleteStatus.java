@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum DeleteStatusEnum implements IEnum<Boolean> {
+public enum DeleteStatus implements IEnum<Boolean> {
     NOT_DELETED(false, "未删除"),
     DELETED(true, "已删除");
 

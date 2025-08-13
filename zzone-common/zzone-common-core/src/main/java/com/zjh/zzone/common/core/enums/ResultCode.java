@@ -9,7 +9,7 @@ import lombok.Getter;
  * @date 2025/7/13 16:38
  */
 @Getter
-public enum ResultCodeEnum {
+public enum ResultCode {
 
     // 成功
     SUCCESS(200, "成功"),
@@ -40,7 +40,7 @@ public enum ResultCodeEnum {
     private final int code;
     private final String message;
 
-    ResultCodeEnum(int code, String message) {
+    ResultCode(int code, String message) {
         this.code = code;
         this.message = message;
     }

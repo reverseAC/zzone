@@ -48,6 +48,11 @@
                 <artifactId>zzone-common-web</artifactId>
                 <version>${zzone.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zjh</groupId>
+                <artifactId>zzone-admin-api</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
             <!-- spring boot -->
             <dependency>

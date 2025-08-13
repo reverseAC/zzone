@@ -26,7 +26,8 @@
 		<module>zzone-iot</module>
         <module>zzone-server</module>
 		<module>zzone-dependencies</module>
-        <module>zzone-server/zzone-admin</module>
+		<module>zzone-admin</module>
+        <module>zzone-common/zzone-common-security</module>
     </modules>
 
 	<scm>

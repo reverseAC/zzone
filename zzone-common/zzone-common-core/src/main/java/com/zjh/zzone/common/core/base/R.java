@@ -1,6 +1,6 @@
 package com.zjh.zzone.common.core.base;
 
-import com.zjh.zzone.common.core.enums.ResultCodeEnum;
+import com.zjh.zzone.common.core.enums.ResultCode;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -29,31 +29,31 @@ public class R<T> implements Serializable {
 	private T data;
 
 	public static <T> R<T> ok() {
-		return restResult(null, ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage());
+		return restResult(null, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
 	}
 
 	public static <T> R<T> ok(T data) {
-		return restResult(data, ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage());
+		return restResult(data, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
 	}
 
 	public static <T> R<T> ok(T data, String msg) {
-		return restResult(data, ResultCodeEnum.SUCCESS.getCode(), msg);
+		return restResult(data, ResultCode.SUCCESS.getCode(), msg);
 	}
 
 	public static <T> R<T> fail() {
-		return restResult(null, ResultCodeEnum.BUSINESS_ERROR.getCode(), ResultCodeEnum.BUSINESS_ERROR.getMessage());
+		return restResult(null, ResultCode.BUSINESS_ERROR.getCode(), ResultCode.BUSINESS_ERROR.getMessage());
 	}
 
 	public static <T> R<T> fail(T data) {
-		return restResult(data, ResultCodeEnum.BUSINESS_ERROR.getCode(), ResultCodeEnum.BUSINESS_ERROR.getMessage());
+		return restResult(data, ResultCode.BUSINESS_ERROR.getCode(), ResultCode.BUSINESS_ERROR.getMessage());
 	}
 
 	public static <T> R<T> fail(String msg) {
-		return restResult(null, ResultCodeEnum.BUSINESS_ERROR.getCode(), msg);
+		return restResult(null, ResultCode.BUSINESS_ERROR.getCode(), msg);
 	}
 
 	public static <T> R<T> fail(T data, String msg) {
-		return restResult(data, ResultCodeEnum.BUSINESS_ERROR.getCode(), msg);
+		return restResult(data, ResultCode.BUSINESS_ERROR.getCode(), msg);
 	}
 
 	public static <T> R<T> restResult(T data, int code, String msg) {
