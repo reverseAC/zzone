@@ -1,5 +1,6 @@
 package com.zjh.zzone.common.security.config;
 
+import com.zjh.zzone.common.security.service.OAuth2AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,9 +23,14 @@ import org.springframework.security.web.servlet.util.matcher.PathPatternRequestM
 public class SpringSecurityConfig {
 
     /**
-     * 允许所有URL的配置属性
+     * 放行URL配置
      */
     private final PermitIgnoreUrlsConfig permitAllUrl;
+
+    /**
+     * 自定义不透明令牌解析器
+     */
+    private final CustomOpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,13 +43,13 @@ public class SpringSecurityConfig {
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
                         .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .authenticated())  // 放行不需要认证的请求路径
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
                                 .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
                                 .bearerTokenResolver(pigBearerTokenExtractor))
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .csrf(AbstractHttpConfigurer::disable);
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // 禁用 X-Frame-Options
+                .csrf(AbstractHttpConfigurer::disable); // 关闭 CSRF 防护
 
         return http.build();
     }
