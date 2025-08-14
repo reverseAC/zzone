@@ -1,6 +1,5 @@
 package com.zjh.zzone.common.security.config;
 
-import com.zjh.zzone.common.security.service.OAuth2AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -12,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 /**
- * TODO describe
+ * Spring Security基础配置类
  *
  * @author zjh
  * @date 2025-08-13 17:02

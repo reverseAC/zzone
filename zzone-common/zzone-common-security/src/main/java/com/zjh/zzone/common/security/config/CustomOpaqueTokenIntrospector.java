@@ -1,9 +1,10 @@
 package com.zjh.zzone.common.security.config;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.zjh.zzone.common.core.constant.SecurityConstants;
 import com.zjh.zzone.common.security.bo.AuthUser;
 import com.zjh.zzone.common.security.service.AuthUserDetailsService;
-import com.zjh.zzone.common.security.service.OAuth2AuthorizationService;
+import com.zjh.zzone.common.security.service.RedisOAuth2AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -26,7 +27,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * TODO
+ * 不透明令牌处理器
  *
  * @author zjh
  * @date 2025/8/13 21:48
@@ -35,7 +36,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
-    private final OAuth2AuthorizationService authorizationService;
+    private final RedisOAuth2AuthorizationService authorizationService;
 
     /**
      * 根据token内省获取认证主体信息

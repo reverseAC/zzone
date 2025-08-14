@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO
+ * 自定义UserDetails实现类
  *
  * @author zjh
  * @date 2025/8/13 22:24
@@ -53,11 +53,11 @@ public class AuthUser extends User implements OAuth2AuthenticatedPrincipal {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.getUsername();
     }
 }

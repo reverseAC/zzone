@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.util.Assert;
 
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2025/8/13 21:48
  */
 @RequiredArgsConstructor
-public class OAuth2AuthorizationService implements org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService {
+public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
 	private final static Long TIMEOUT = 10L;
 

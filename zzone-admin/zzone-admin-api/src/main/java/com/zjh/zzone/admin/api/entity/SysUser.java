@@ -2,7 +2,6 @@ package com.zjh.zzone.admin.api.entity;
 
 import com.zjh.zzone.common.mybatis.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -15,7 +14,7 @@ import lombok.Data;
 public class SysUser extends BaseEntity {
 
     @Schema(description = "用户名")
-    private String userName;
+    private String username;
 
     @Schema(description = "密码")
     private String password;

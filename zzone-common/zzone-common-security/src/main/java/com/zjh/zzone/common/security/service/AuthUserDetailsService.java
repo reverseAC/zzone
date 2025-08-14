@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO
+ * 用户认证信息 接口
  *
  * @author zjh
  * @date 2025/8/13 22:07

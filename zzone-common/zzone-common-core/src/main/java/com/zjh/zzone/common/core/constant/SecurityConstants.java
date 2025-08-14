@@ -17,4 +17,9 @@ public interface SecurityConstants {
      * {bcrypt} 加密的特征码
      */
     String BCRYPT = "{bcrypt}";
+
+    /**
+     * 客户端ID
+     */
+    String CLIENT_ID = "clientId";
 }
