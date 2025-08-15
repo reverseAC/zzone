@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylg.iot.media.mapper.RecordShareLogMapper">
+
+    <select id="selectShareLogPage" resultType="com.ylg.iot.media.vo.RecordShareLogVO">
+        SELECT *
+        FROM record_share_log
+        WHERE deleted = 0 AND device_gb_id = #{recordShareLog.deviceGbId} AND channel_gb_id = #{recordShareLog.channelGbId}
+        <if test="recordShareLog.isValid != null and recordShareLog.isValid">
+            AND expire_time > now()
+        </if>
+        <if test="recordShareLog.isValid != null and !recordShareLog.isValid">
+            AND expire_time &lt; now()
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getExpireShare" resultType="long">
+        SELECT t2.id FROM record_share_log t1
+        JOIN cloud_record t2 ON t1.`stream` = t2.`stream`
+        WHERE t1.expire_time &lt; NOW() AND t1.deleted = 0 AND t2.deleted = 0
+    </select>
+</mapper>

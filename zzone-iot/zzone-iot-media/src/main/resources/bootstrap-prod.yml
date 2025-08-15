@@ -1,0 +1,22 @@
+# Spring
+spring:
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 139.9.144.242:8848
+        namespace: 92413a7b-71f2-47b8-9753-572ccf24fd08
+        username: nacos
+        password: ylgsz@2024Nacos
+      config:
+        # 配置中心地址
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - redis.${spring.cloud.nacos.config.file-extension}
+          - mq.${spring.cloud.nacos.config.file-extension}
+        username: nacos
+        password: ylgsz@2024Nacos

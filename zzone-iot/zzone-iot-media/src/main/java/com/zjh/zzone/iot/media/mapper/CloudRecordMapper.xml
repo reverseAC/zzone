@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylg.iot.media.mapper.CloudRecordMapper">
+
+    <select id="getList" resultType="com.ylg.iot.entity.CloudRecord">
+        SELECT *
+        FROM cloud_record
+        WHERE deleted = 0
+        <if test="cloudRecord.query != null and cloudRecord.query != ''">
+            AND (`app` LIKE CONCAT('%',#{cloudRecord.query},'%') escape '/'
+                OR `stream` LIKE CONCAT('%',#{cloudRecord.query},'%') escape '/'
+            )
+        </if>
+        <if test="cloudRecord.app != null and cloudRecord.app != ''">
+            AND `app` = #{cloudRecord.app}
+        </if>
+        <if test="cloudRecord.stream != null and cloudRecord.stream != ''">
+            AND `stream` = #{cloudRecord.stream}
+        </if>
+        <if test="cloudRecord.startTime != null and cloudRecord.startTime != ''">
+            AND start_time >= #{cloudRecord.startTime}
+        </if>
+        <if test="cloudRecord.endTime != null and cloudRecord.endTime != ''">
+            AND end_time &lt; #{cloudRecord.endTime}
+        </if>
+        <if test="cloudRecord.callId != null and cloudRecord.callId != ''">
+            AND call_id = #{cloudRecord.callId}
+        </if>
+        <if test="cloudRecord.mediaServerItems != null and cloudRecord.mediaServerItems != ''">
+            AND media_server_id IN
+            <foreach collection="cloudRecord.mediaServerItems" item="serverId"  open="(" close=")" separator=",">
+                #{serverId}
+            </foreach>
+        </if>
+        <if test="cloudRecord.ids != null and cloudRecord.ids != '' ">
+            AND id IN
+            <foreach collection="cloudRecord.ids" item="id"  open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

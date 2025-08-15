@@ -5,17 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zjh</groupId>
-        <artifactId>zzone</artifactId>
-        <version>${revision}</version>
+        <artifactId>zzone-iot</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>zzone-iot</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>zzone-iot-coap</module>
-        <module>zzone-iot-mqtt</module>
-        <module>zzone-iot-media</module>
-    </modules>
+    <artifactId>zzone-iot-media</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -23,4 +17,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.sip</groupId>
+            <artifactId>jain-sip-ri</artifactId>
+        </dependency>
+    </dependencies>
 </project>
