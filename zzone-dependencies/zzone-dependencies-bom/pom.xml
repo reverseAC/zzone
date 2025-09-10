@@ -16,7 +16,7 @@
     <description>依赖版本统一管理</description>
 
     <properties>
-        <zzone.version>0.0.1-SNAPSHOT</zzone.version>
+        <revision>0.0.1-SNAPSHOT</revision>
         <spring-boot.version>3.5.3</spring-boot.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
@@ -28,6 +28,9 @@
         <hutool.version>5.8.38</hutool.version>
         <californium.version>3.11.0</californium.version>
         <netty.version>4.1.119.Final</netty.version>
+        <protostuff.version>1.7.4</protostuff.version>
+        <jain-sip.version>1.3.0-91</jain-sip.version>
+        <hivemq-mqtt.version>1.3.9</hivemq-mqtt.version>
     </properties>
 
     <dependencyManagement>
@@ -36,22 +39,22 @@
             <dependency>
                 <groupId>com.zjh</groupId>
                 <artifactId>zzone-common-core</artifactId>
-                <version>${zzone.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zjh</groupId>
                 <artifactId>zzone-common-mybatis</artifactId>
-                <version>${zzone.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zjh</groupId>
                 <artifactId>zzone-common-web</artifactId>
-                <version>${zzone.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zjh</groupId>
                 <artifactId>zzone-admin-api</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- spring boot -->
@@ -169,6 +172,39 @@
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+            <!--protostuff 序列化-->
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-api</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-core</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <!--sip协议-->
+            <dependency>
+                <groupId>javax.sip</groupId>
+                <artifactId>jain-sip-ri</artifactId>
+                <version>${jain-sip.version}</version>
+            </dependency>
+            <!-- 取代log4j，sip协议栈依赖log4j进行日志格式化 -->
+<!--            <dependency>-->
+<!--                <groupId>org.slf4j</groupId>-->
+<!--                <artifactId>log4j-over-slf4j</artifactId>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>com.hivemq</groupId>
+                <artifactId>hivemq-mqtt-client</artifactId>
+                <version>${hivemq-mqtt.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

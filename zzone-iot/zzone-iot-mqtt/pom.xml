@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.zjh</groupId>
         <artifactId>zzone-iot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>zzone-iot-mqtt</artifactId>
@@ -25,6 +25,11 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hivemq</groupId>
+            <artifactId>hivemq-mqtt-client</artifactId>
+            <version></version>
         </dependency>
     </dependencies>
 

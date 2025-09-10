@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: 192.168.2.110:9876
+          group: output_common
+      kafka:
+        binder:
+          brokers: 192.168.2.110:9092         #Kafka的消息中间件服务器
+          ##如果topic不存在则创建
+          auto-create-topics: true
+          auto-add-partitions: true #自动分区
+          min-partition-count: 1 #最小分区
+          ##这个序列化很关键，如果不加这个配置，则发送对象消息时候，会报转换错误
+          configuration:
+            key:
+              serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+
+      bindings:
+        # 输出通道（生产者）
+        sendTest-out-0:
+          destination: send-test
+          contentType: application/json
+          # 消费组不能配置一样，否则消息会乱
+          group: test
+          producer:
+            partition-count: 5
+
+        # 输入通道（消费者）
+        protocolInfoChanged-in-0:
+          destination: protocolInfoChanged
+          # 所有服务副本都需要更新缓存，需要group互不不同
+          group: ${spring.application.instance-id}
+        productInfoChanged-in-0:
+          destination: productInfoChanged
+          # 所有服务副本都需要更新缓存，需要group互不不同
+          group: ${spring.application.instance-id}
+
+      function:
+        definition: protocolInfoChanged;productInfoChanged;
